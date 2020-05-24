@@ -15,10 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.castac.beatbox.databinding.FragmentBeatBoxBinding;
 import com.castac.beatbox.databinding.ListItemSoundBinding;
 
+import java.util.List;
+
 public class BeatBoxFragment extends Fragment {
+
+    private BeatBox mBeatBox;
+    private List<Sound> mSounds;
 
     public static  BeatBoxFragment newInstance(){
         return new BeatBoxFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mBeatBox = new BeatBox(getActivity());
     }
 
     @Nullable
@@ -27,6 +39,7 @@ public class BeatBoxFragment extends Fragment {
         FragmentBeatBoxBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_beat_box , container, false);
 
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        binding.recyclerView.setAdapter(new SoundAdapter(mBeatBox.getmSounds()));
 
         return binding.getRoot();
     }
@@ -37,6 +50,40 @@ public class BeatBoxFragment extends Fragment {
         public SoundHolder(@NonNull ListItemSoundBinding itemView) {
             super(itemView.getRoot());
             mBinding = itemView;
+            mBinding.setViewModel(new SoundViewModel(mBeatBox));
+        }
+
+        public void bind(Sound sound){
+            mBinding.getViewModel().setSound(sound);
+            mBinding.executePendingBindings();
+        }
+
+
+    }
+
+    private class SoundAdapter extends RecyclerView.Adapter<SoundHolder> {
+
+        public SoundAdapter(List<Sound> sounds){
+            mSounds = sounds;
+        }
+
+        @NonNull
+        @Override
+        public SoundHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            ListItemSoundBinding binding = DataBindingUtil.inflate(inflater,R.layout.list_item_sound, parent, false);
+            return new SoundHolder(binding);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull SoundHolder holder, int position) {
+            Sound sound = mSounds.get(position);
+            holder.bind(sound);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mSounds.size();
         }
     }
 }

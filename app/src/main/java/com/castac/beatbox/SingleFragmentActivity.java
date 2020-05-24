@@ -13,7 +13,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     @LayoutRes
     protected int getLayoutResId() {
-        return R.layout.crime_main;
+        return R.layout.activity_twopane;
     }
 
     @Override

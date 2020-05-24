@@ -15,6 +15,6 @@ public class BeatBoxActivity extends SingleFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_beat_box);
+        setContentView(R.layout.activity_twopane);
     }
 }
