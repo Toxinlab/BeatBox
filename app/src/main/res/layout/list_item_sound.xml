@@ -10,5 +10,5 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         tools:text="@{viewModel.title}"
-        android:onClick="@{() -> viewModel.onButtonClicked()}"/>
+        android:onClick="@{() -> viewModel.onButtonClicked()}" />
 </layout>
